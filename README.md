@@ -71,8 +71,8 @@ $ jshelf
 |field name|type|required|comment|
 |---|---|---|---|
 |root|string|true|the root directory to be formated|
-|ignore|array|false|the directorys you don't want to be formated but whitch included in root|
-|rules|object|true|the rules according to whitch to format|
+|ignore|array|false|the directorys you don't want to be formated but included in the root|
+|rules|object|true|the rules according to which to format|
 |rules.directory|object|false|directory rules\<rule item\>|
 |rules.files|array|false|files rules\<rule item\>|
 |rules.default|object|true|default rules\<rule item\>|
