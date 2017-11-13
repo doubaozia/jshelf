@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/jshelf)
+[![npm](https://img.shields.io/badge/npm-v0.1.1-blue.svg)](https://www.npmjs.com/package/jshelf)
 
 # JShelf
 
