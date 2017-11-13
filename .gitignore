@@ -27,3 +27,4 @@ dist
 build
 assets/**/*.css
 .vscode
+npm-debug.log
