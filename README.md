@@ -64,7 +64,7 @@ $ npm install jshelf --save-dev
 ```
 2. run the command in your project's root directory
 ```
-$ npm install jshelf --save-dev
+$ jshelf
 ```
 
 ## Config options
