@@ -1,6 +1,10 @@
+
 # JShelf
 
 JShelf is a react project auto format tool, you can use it to format your react project structure easily.
+
+[![npm](https://img.shields.io/badge/npm-v0.1.1-blue.svg)](https://www.npmjs.com/package/jshelf)
+
 features:
 - configurable
 - format directory and file names
@@ -13,7 +17,7 @@ $ npm install jshelf --save-dev
 ```
 ## Usage
 
-create a config file ```jshelf.json``` for your project, for example:
+1. create a config file ```jshelf.json``` for your project, for example:
 
 ```json
 {
@@ -58,12 +62,17 @@ create a config file ```jshelf.json``` for your project, for example:
   ]
 }
 ```
+2. run the command in your project's root directory
+```
+$ jshelf
+```
+
 ## Config options
 |field name|type|required|comment|
 |---|---|---|---|
 |root|string|true|the root directory to be formated|
-|ignore|array|false|the directorys you don't want to be formated but whitch included in root|
-|rules|object|true|the rules according to whitch to format|
+|ignore|array|false|the directorys you don't want to be formated but included in the root|
+|rules|object|true|the rules according to which to format|
 |rules.directory|object|false|directory rules\<rule item\>|
 |rules.files|array|false|files rules\<rule item\>|
 |rules.default|object|true|default rules\<rule item\>|
