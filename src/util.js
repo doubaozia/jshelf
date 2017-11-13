@@ -110,20 +110,6 @@ const utils = {
     }
   },
   /**
-   * 判断是否为模块语句
-   * @param {string} string
-   */
-  isModuleSyntax(s) {
-    return (/(import\s|export|require|exports|from)/).test(s);
-  },
-  /**
-   * 从模块语句中提取模块字符串
-   * @param {string} string
-   */
-  extractModulePathFromString(s) {
-    return s.match(/'\.[\w-./]+'/) ? s.match(/'\.[\w-./]+'/)[0].slice(1, -1) : '';
-  },
-  /**
    * 把unicode字符串转换为汉字
    * @param {string} unicode
    */
@@ -141,6 +127,17 @@ const utils = {
    */
   p(...args) {
     return path.join(process.cwd(), ...args);
+  },
+  /**
+   * 获取前缀路径
+   * @param {string} path 
+   */
+  getPrefixPath(path) {
+    let prefixPath = path;
+    if (/^\/?[\w\d]+/.test(prefixPath)) {
+      prefixPath = prefixPath.replace(/^\/?/, './');
+    }
+    return prefixPath;
   }
 };
 

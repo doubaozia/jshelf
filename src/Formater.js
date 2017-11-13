@@ -39,10 +39,6 @@ const DEFAULT_RULES = {
 
 class Formater {
   constructor() {
-    this.src = config.root;
-    this.ignore = config.ignore || [];
-    this.files = [];
-    this.filesMap = {};
     if (!config.root) {
       throw new Error('Src is required');
     }
@@ -53,6 +49,10 @@ class Formater {
       throw new Error('Words is required');
     }
     this.processConfig();
+    this.src = config.root;
+    this.ignore = config.ignore || [];
+    this.files = [];
+    this.filesMap = {};
     this.words = config.words || [];
     this.rules = {};
     utils.assign(this.rules, DEFAULT_RULES, config.rules);
@@ -76,7 +76,8 @@ class Formater {
    * 处理字典中的单词顺序
    */
   processConfig() {
-    config.words = Array.from(new Set(config.words.sort().reverse()));
+    config.root = utils.getPrefixPath(config.root);
+    config.ignore = config.ignore.map(val => utils.getPrefixPath(val));
   }
 
   /**
