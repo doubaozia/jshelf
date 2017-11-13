@@ -9,7 +9,7 @@ features:
 ## Installation
 you can install jshelf by the npm recommend:
 ```
-$ npm install eslint --save-dev
+$ npm install jshelf --save-dev
 ```
 ## Usage
 
