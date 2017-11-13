@@ -1,0 +1,36 @@
+{
+  "name": "jshelf",
+  "version": "0.1.0",
+  "description": "react project format tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doubaozia/prodou.git"
+  },
+  "keywords": [
+    "react",
+    "project",
+    "format",
+    "tool"
+  ],
+  "author": "doubaozia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doubaozia/prodou/issues"
+  },
+  "homepage": "https://github.com/doubaozia/prodou#readme",
+  "bin": {
+    "jshelf": "./bin/jshelf.js"
+  },
+  "dependencies": {
+    "babel-generator": "^6.26.0",
+    "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
+    "babylon": "^6.18.0",
+    "commander": "^2.11.0",
+    "glob": "^7.1.2"
+  }
+}
