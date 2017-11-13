@@ -78,6 +78,7 @@ create a config file ```jshelf.json``` for your project, for example:
 
 ### Cases
 now you can format your file or directory name use one of the following cases:
+
 |case|example|words|formated|
 |---|---|---|---|
 |kebab|'kebabcase'|['kebab', 'case']|kebab-case|
