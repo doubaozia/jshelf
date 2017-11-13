@@ -1,5 +1,7 @@
 
 # JShelf
+![alt text](https://github.com/doubaozia/jshelf/blob/master/jshelf-icon.png "")
+
 
 JShelf is a react project auto format tool, you can use it to format your react project structure easily.
 
