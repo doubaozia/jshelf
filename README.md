@@ -17,7 +17,7 @@ $ npm install jshelf --save-dev
 ```
 ## Usage
 
-create a config file ```jshelf.json``` for your project, for example:
+1. create a config file ```jshelf.json``` for your project, for example:
 
 ```json
 {
@@ -62,6 +62,11 @@ create a config file ```jshelf.json``` for your project, for example:
   ]
 }
 ```
+2. run the command in your project's root directory
+```
+$ npm install jshelf --save-dev
+```
+
 ## Config options
 |field name|type|required|comment|
 |---|---|---|---|
