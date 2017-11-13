@@ -15,7 +15,7 @@ $ npm install jshelf --save-dev
 
 create a config file ```jshelf.json``` for your project, for example:
 
-```
+```json
 {
   "root": "./src",
   "ignore": ["./src/app/", "./src/lib/", "./src/util/"],
