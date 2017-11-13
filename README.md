@@ -64,9 +64,9 @@ create a config file ```jshelf.json``` for your project, for example:
 |root|string|true|the root directory to be formated|
 |ignore|array|false|the directorys you don't want to be formated but whitch included in root|
 |rules|object|true|the rules according to whitch to format|
-|rules.directory|object<br>\<rule item\>|false|directory rules|
-|rules.files|array<br>\<rule item\>|false|files rules|
-|rules.default|object<br>\<rule item\>|true|default rules|
+|rules.directory|object|false|directory rules\<rule item\>|
+|rules.files|array|false|files rules\<rule item\>|
+|rules.default|object|true|default rules\<rule item\>|
 |words|array|true|the words appeard in your file or directory name|
 
 ### Rule item configs:
