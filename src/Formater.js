@@ -158,7 +158,7 @@ class Formater {
     }
 
     for (let i = 0, l = pathArr.length; i < l; i += 1) {
-      let parsed = pathArr[i].replace(/[-_]/g, '');
+      let parsed = pathArr[i].replace(/[-_]/g, '').toLowerCase();
 
       if (!(/\.\w+/).test(parsed) && i !== l - 1) {
         // 文件夹转换
@@ -275,7 +275,7 @@ class Formater {
    */
   modifyModuleNames(file) {
     const me = this;
-    if (/\.less/.test(file)) {
+    if (!/\.js$|\.jsx$/.test(file)) {
       return;
     }
     const ast = me.getAst(file);
