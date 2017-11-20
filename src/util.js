@@ -4,6 +4,13 @@ const Trie = require('./Trie');
 
 const utils = {
   /**
+   * 获取脚本执行绝对路径
+   * @param {array} args 
+   */
+  p(...args) {
+    return path.join(process.cwd(), ...args);
+  },
+  /**
    * 深拷贝对象
    * @param {*} args
    */
@@ -120,13 +127,6 @@ const utils = {
       str += String.fromCharCode(parseInt(hanzi[i], 16).toString(10));
     }
     return str;
-  },
-  /**
-   * 获取脚本执行绝对路径
-   * @param {array} args 
-   */
-  p(...args) {
-    return path.join(process.cwd(), ...args);
   },
   /**
    * 获取前缀路径

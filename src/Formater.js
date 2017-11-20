@@ -11,6 +11,7 @@ const generate = require('babel-generator');
 
 const utils = require('./util.js');
 const Trie = require('./Trie.js');
+const NodeCreator = require('./NodeCreator.js');
 
 const { p } = utils;
 
@@ -24,17 +25,19 @@ const config = JSON.parse(fs.readFileSync(p('./jshelf.json')));
 const DEFAULT_RULES = {
   directory: {
     case: 'mix',
-    ignore: [],
+    ignore: []
   },
-  files: [{
-    test: '*.*',
-    case: 'camel',
-    ignore: [],
-  }],
+  files: [
+    {
+      test: '*.*',
+      case: 'camel',
+      ignore: []
+    }
+  ],
   default: {
     case: 'mix',
-    ignore: [],
-  },
+    ignore: []
+  }
 };
 
 class Formater {
@@ -69,7 +72,7 @@ class Formater {
     me.copyFile();
     me.processModules();
     me.replaceSrc();
-    utils.unlinkFolders(p('./mirror'));
+    utils.unlinkFolders(p("./mirror"));
   }
 
   /**
@@ -115,11 +118,13 @@ class Formater {
       me.files.push(prefixPath);
       return;
     }
-    if (!(/\/$/).test(prefixPath)) {
+    if (!/\/$/.test(prefixPath)) {
       prefixPath += '/';
     }
     const path = `${prefixPath}**/*.*`;
-    me.files = glob.sync(p(path)).map(v => `.${v.substring(process.cwd().length)}`);
+    me.files = glob
+      .sync(p(path))
+      .map(v => `.${v.substring(process.cwd().length)}`);
   }
 
   /**
@@ -147,11 +152,12 @@ class Formater {
     const pathArr = filePath.split('/');
     const procPathArr = [];
 
-    const isIgnored = me.ignore.some(v => (
-      absolutePath
-        ? absolutePath.replace(/^\/?mirror/, '.').indexOf(v) === 0
-        : filePath.replace(/mirror\//, '').indexOf(v) === 0
-    ));
+    const isIgnored = me.ignore.some(
+      v =>
+        absolutePath
+          ? absolutePath.replace(/^\/?mirror/, '.').indexOf(v) === 0
+          : filePath.replace(/mirror\//, '').indexOf(v) === 0
+    );
     if (isIgnored) {
       pathArr.splice(1, 0, 'mirror');
       return pathArr.join('/');
@@ -160,17 +166,29 @@ class Formater {
     for (let i = 0, l = pathArr.length; i < l; i += 1) {
       let parsed = pathArr[i].replace(/[-_]/g, '').toLowerCase();
 
-      if (!(/\.\w+/).test(parsed) && i !== l - 1) {
+      if (!/\.\w+/.test(parsed) && i !== l - 1) {
         // 文件夹转换
-        parsed = me.formatByCase(parsed, me.rules.directory.case, me.rules.directory.ignore);
-      } else if (!(/\.\w+/).test(parsed) && lastIsFolder) {
-        parsed = me.formatByCase(parsed, me.rules.directory.case, me.rules.directory.ignore);
+        parsed = me.formatByCase(
+          parsed,
+          me.rules.directory.case,
+          me.rules.directory.ignore
+        );
+      } else if (!/\.\w+/.test(parsed) && lastIsFolder) {
+        parsed = me.formatByCase(
+          parsed,
+          me.rules.directory.case,
+          me.rules.directory.ignore
+        );
       } else {
         // 文件转换
-        const fileRule = me.rules.files
-          .filter(val => new RegExp(val.test).test(parsed))[0] || me.rules.default;
+        const fileRule =
+          me.rules.files.filter(val => new RegExp(val.test).test(parsed))[0] ||
+          me.rules.default;
 
-        if ((/^(page)[\w\d]+(\.js$|\.jsx$|\.less$)/i).test(parsed) && parsed.split('.')[0].substring(4)) {
+        if (
+          /^(page)[\w\d]+(\.js$|\.jsx$|\.less$)/i.test(parsed) &&
+          parsed.split('.')[0].substring(4)
+        ) {
           parsed = parsed.substring(4);
         }
 
@@ -192,7 +210,7 @@ class Formater {
    */
   copyFile(reverse) {
     const me = this;
-    const checkAndCreateFolder = (dest) => {
+    const checkAndCreateFolder = dest => {
       if (!fs.existsSync(p(dest))) {
         const paths = dest.split('/');
         let curPath = paths[0];
@@ -204,9 +222,11 @@ class Formater {
         }
       }
     };
-    Object.keys(me.filesMap).forEach((file) => {
+    Object.keys(me.filesMap).forEach(file => {
       const src = !reverse ? file : me.filesMap[file];
-      const dest = !reverse ? me.filesMap[file] : me.filesMap[file].replace(/mirror\//, '');
+      const dest = !reverse
+        ? me.filesMap[file]
+        : me.filesMap[file].replace(/mirror\//, '');
 
       if (!fs.existsSync(p(src))) {
         throw new Error(`can't find source ${file}`);
@@ -221,7 +241,7 @@ class Formater {
    * 获取文件内容的AST对象
    * @param {string} file
    */
-  getAst(file) {
+  getAST(file) {
     const code = fs.readFileSync(p(file), 'utf8');
     const ast = babylon.parse(code, {
       sourceType: 'module',
@@ -245,8 +265,8 @@ class Formater {
         'numericSeparator',
         'optionalChaining',
         'optionalCatchBinding',
-        'throwExpressions',
-      ],
+        'throwExpressions'
+      ]
     });
     return ast;
   }
@@ -257,12 +277,16 @@ class Formater {
    * @param {string} srcFile
    * @param {string} destFile
    */
-  applyAstChangesToFile(ast, srcFile, destFile) {
+  applyASTChangesToFile(ast, srcFile, destFile) {
     const code = fs.readFileSync(p(srcFile), 'utf8');
-    const output = generate.default(ast, { jsonCompatibleStrings: false }, code);
+    const output = generate.default(
+      ast,
+      { jsonCompatibleStrings: false },
+      code
+    );
     const hanziUnicode = output.code.match(/(\\u[\w\d]{4})+/gi);
     if (hanziUnicode) {
-      hanziUnicode.forEach((v) => {
+      hanziUnicode.forEach(v => {
         output.code = output.code.replace(v, utils.unicodeToHanzi(v));
       });
     }
@@ -278,10 +302,13 @@ class Formater {
     if (!/\.js$|\.jsx$/.test(file)) {
       return;
     }
-    const ast = me.getAst(file);
-    const fileFolder = file.split('/').slice(0, -1).join('/');
+    const ast = me.getAST(file);
+    const fileFolder = file
+      .split('/')
+      .slice(0, -1)
+      .join('/');
 
-    const getNewModule = (oldModulePath) => {
+    const getNewModule = oldModulePath => {
       let modulePath = oldModulePath;
       let newModulePath = oldModulePath;
       let selfModuleFlag = false;
@@ -291,14 +318,18 @@ class Formater {
         newModulePath = modulePath;
         selfModuleFlag = true;
       }
-      const absolutePath = p(fileFolder, modulePath).substring(process.cwd().length);
+      const absolutePath = p(fileFolder, modulePath).substring(
+        process.cwd().length
+      );
 
       // 假设模块是文件
-      const moduleAssumeIsFile = mPath => (me.parsePath(mPath, false, absolutePath));
+      const moduleAssumeIsFile = mPath =>
+        me.parsePath(mPath, false, absolutePath);
       // 假设模块是文件夹
-      const moduleAssumeIsFolder = mPath => (me.parsePath(mPath, true, absolutePath));
+      const moduleAssumeIsFolder = mPath =>
+        me.parsePath(mPath, true, absolutePath);
       // 获取当前文件目录和模块目录的组合路径
-      const joinedPath = mPath => (path.join(fileFolder, mPath));
+      const joinedPath = mPath => path.join(fileFolder, mPath);
 
       if (fs.existsSync(joinedPath(moduleAssumeIsFolder(modulePath)))) {
         newModulePath = moduleAssumeIsFolder(modulePath);
@@ -320,8 +351,11 @@ class Formater {
 
     traverse.default(ast, {
       enter(p) {
-        if (t.isIdentifier(p.node, { name: 'require' }) && p.container.arguments) {
-          p.container.arguments.forEach((v) => {
+        if (
+          t.isIdentifier(p.node, { name: 'require' }) &&
+          p.container.arguments
+        ) {
+          p.container.arguments.forEach(v => {
             const modulePath = v.value;
             v.value = getNewModule(modulePath);
           });
@@ -330,9 +364,22 @@ class Formater {
           const modulePath = p.node.source.value;
           p.node.source.value = getNewModule(modulePath);
         }
-      },
+        if (
+          (t.isExpressionStatement(p.node) &&
+            p.node.expression &&
+            p.node.expression.callee &&
+            p.node.expression.callee.name === 'require') ||
+          (t.isVariableDeclaration(p.node) &&
+            p.node.declarations.length === 1 &&
+            p.node.declarations[0].init &&
+            p.node.declarations[0].init.callee &&
+            p.node.declarations[0].init.callee.name === 'require')
+        ) {
+          p.replaceWith(new NodeCreator(p.node).createImportNode());
+        }
+      }
     });
-    me.applyAstChangesToFile(ast, file, file);
+    me.applyASTChangesToFile(ast, file, file);
   }
 
   /**
@@ -341,7 +388,7 @@ class Formater {
   processModules() {
     const me = this;
     // 获取每个文件
-    Object.keys(me.filesMap).forEach((key) => {
+    Object.keys(me.filesMap).forEach(key => {
       const file = me.filesMap[key];
       me.modifyModuleNames(file);
       console.log('[finished]: ', file);
