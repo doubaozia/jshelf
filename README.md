@@ -3,7 +3,7 @@
 
 JShelf is a react project auto format tool, you can use it to format your react project structure easily.
 
-[![npm](https://img.shields.io/badge/npm-v0.1.3-blue.svg)](https://www.npmjs.com/package/jshelf)
+[![npm](https://img.shields.io/badge/npm-v0.1.4-blue.svg)](https://www.npmjs.com/package/jshelf)
 
 ![alt text](https://github.com/doubaozia/jshelf/blob/master/jshelf-icon.png "")
 
@@ -11,6 +11,7 @@ features:
 - configurable
 - format directory and file names
 - auto modify the module import and export
+- parse module require to import
 
 ## Installation
 you can install jshelf by the npm recommend:
