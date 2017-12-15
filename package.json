@@ -1,6 +1,6 @@
 {
   "name": "jshelf",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "react project format tool",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/doubaozia/prodou.git"
+    "url": "git+https://github.com/doubaozia/jshelf.git"
   },
   "keywords": [
     "react",

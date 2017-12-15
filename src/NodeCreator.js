@@ -22,6 +22,10 @@ class NodeCreator {
     const me = this;
     let identifierName, argumentValue, node;
 
+    if (!t.isExpressionStatement(me.node)) {
+      return me.node;
+    }
+
     if (me.node.declarations) {
       identifierName = me.getIdentifierName();
       argumentValue = me.getArgumentValue();
@@ -37,6 +41,19 @@ class NodeCreator {
       );
     }
 
+    return node;
+  }
+
+  createExportNode() {
+    const me = this;
+    let identifierName, node;
+
+    if (!t.isExpressionStatement(me.node)) {
+      return this.node;
+    }
+
+    identifierName = me.node.expression.right.name;
+    node = t.exportDefaultDeclaration(t.identifier(identifierName));
     return node;
   }
 }

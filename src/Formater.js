@@ -377,6 +377,14 @@ class Formater {
         ) {
           p.replaceWith(new NodeCreator(p.node).createImportNode());
         }
+        if (
+          t.isExpressionStatement(p.node) &&
+          p.node.expression.left &&
+          p.node.expression.left.object.name === 'module' &&
+          p.node.expression.left.property.name === 'exports'
+        ) {
+          p.replaceWith(new NodeCreator(p.node).createExportNode());
+        }
       }
     });
     me.applyASTChangesToFile(ast, file, file);
